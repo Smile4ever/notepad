@@ -9,7 +9,7 @@
 # note pad 6 = legacy code is still in source incase of issues
 # notepad 7 = added menu insert
 # added insert date time to insert menu
-
+# notepad8 size 800x600 add character count option
 
 #  Copyright 2014 Paul Sutton <psutton@ER1401>
 #  
@@ -42,19 +42,19 @@ import time
 
 #set up
 window = Tk()
-window.title('Notepad 7.0')
-window.geometry("420x220") #set window size
-window.resizable(1,1)
+window.title('Notepad 8.0b')
+window.geometry("800x600") #set window size  W x h
+window.resizable(0,0)
 
 #define text entry box
-notetext = Text(window, height=420, width=210)  #set text box size
+notetext = Text(window, height=780, width=580)  #set text box size
 #display text entry box
 notetext.pack()
 notetext.grid(row = 1, column = 3,)
 
 #code for scroll bars
 
-txt = Text(notetext, height=15, width=55)
+txt = Text(notetext, height=100, width=110)
 scr = Scrollbar(notetext)	
 scr.config(command=txt.yview)
 txt.config(yscrollcommand=scr.set)
@@ -119,6 +119,12 @@ def insert_date_time():
 	txt.insert(END, dati) #insert date and time in to document
 	print dati	# legacy test	
 	
+def char_count():
+	print("test")
+	data = txt.get('1.0', END+'-1c')
+	#str(notetext)
+	x = len(data)
+	print x
 	
 # create a menu
 def dummy():
@@ -136,6 +142,7 @@ filemenu.add_command(label="Exit", command=exit_cmd)
 insertmenu = Menu(menu)
 menu.add_cascade( label="Insert", menu=insertmenu)
 insertmenu.add_command(label="Date/time", command=insert_date_time)		
+insertmenu.add_command(label="Character count", command=char_count)	
 
 helpmenu = Menu(menu)
 menu.add_cascade(label="Help", menu=helpmenu)
