@@ -10,7 +10,7 @@
 # notepad 7 = added menu insert
 # added insert date time to insert menu
 # notepad8 size 800x600 add character count option
-
+# notepad8 - fixed word count properly,  changed window size
 #  Copyright 2014 Paul Sutton <psutton@ER1401>
 #  
 #  This program is free software; you can redistribute it and/or modify

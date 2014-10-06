@@ -10,7 +10,7 @@
 # notepad 7 = added menu insert
 # added insert date time to insert menu
 # notepad8 size 800x600 add character count option
-
+# notepad8 - fixed word count properly,  changed window size
 #  Copyright 2014 Paul Sutton <psutton@ER1401>
 #  
 #  This program is free software; you can redistribute it and/or modify
@@ -30,13 +30,16 @@
 #  
 #http://effbot.org/zone/vroom.htm  
 #http://knowpapa.com/text-editor/
+#printing to the printer
 #
 import Tkinter # note use of caps
 from Tkinter import *
 import tkFileDialog
+from tkFileDialog import askopenfilename
 import tkMessageBox
 import sys
 import time
+import os
         
 #window = Tkinter.Tk(className=" Just another Text Editor")
 
@@ -45,8 +48,6 @@ window = Tk()
 window.title('Notepad 8.0b')
 window.geometry("800x400") #set window size  W x h
 window.resizable(0,0)
-   
-
 
 #define text entry box
 notetext = Text(window, height=750, width=580)  #set text box size
@@ -84,6 +85,7 @@ def open_command():
         if file != None:
             text = file.read()
             txt.insert(END, text)
+            print file
             file.close()	
 
 #def save_command(self):
@@ -93,8 +95,11 @@ def save_command():
     # slice off the last character from get, as an extra return is added
         data = txt.get('1.0', END+'-1c')
         file.write(data)
+        #filepath = tkFileDialog.asksaveasfilename()
+        #filepath = os.path.normpath(filepath)
+        print "this is the file name ",file
         file.close()
-
+		
 #legacy save file
 def savefile():
 	f = open("document.txt", "w")
@@ -137,6 +142,9 @@ def char_count():
 def dummy():
     print ("I am a Dummy Command, I will be removed in the next step")
     
+def send2printer():
+	#os.system("lpr -P printer_name file_name.txt")
+	print ("printer feature not enabled")     
     
 menu = Menu(window)
 window.config(menu=menu)
@@ -145,6 +153,7 @@ menu.add_cascade(label="File", menu=filemenu)
 filemenu.add_command(label="New", command=newfile)
 filemenu.add_command(label="Open...", command=open_command)
 filemenu.add_command(label="Save_As", command=save_command)
+filemenu.add_command(label="Print", command=send2printer)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=exit_cmd)
 
