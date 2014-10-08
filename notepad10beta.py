@@ -45,7 +45,7 @@ import os
 
 #set up
 window = Tk()
-window.title('Notepad 8.0b')
+window.title('Notepad 10.0b')
 window.geometry("800x400") #set window size  W x h
 window.resizable(0,0)
 
@@ -117,26 +117,29 @@ def about_cmd():
     label = tkMessageBox.showinfo("About", "Notepad by Paul Sutton")		
 
 def exit_cmd():
-	if tkMessageBox.askokcancel("Quit", "Do you really want to quit?"):
+	if(char_count() == 0):
+		sys.exit()
+	elif tkMessageBox.askokcancel("Quit", "Do you really want to quit?"):
 		sys.exit()
 		
 		
 def insert_date_time():
 	dati = time.ctime() # set variable to grab the current date and time
-	txt.insert(END, dati) #insert date and time in to document
+	txt.insert(END, dati) #insert date and time into the document
 	print dati	# legacy test	
-	
-def char_count():
-	#print("test")
+
+def char_count_print():
 	msg = "Number of Characters : "
-	data = txt.get('1.0', END+'-1c')
-	#str(notetext)
-	chrcount = len(data) # get length of string 
+	chrcount = char_count()
+	
 	# insert a newline,  then insert the string to display the variable msg, convert the number of 
 	# characters to a string and then concatenate this to the previous inserts. 
-	#
-	txt.insert(END, '\n' + str(msg) + str(chrcount)) #insert date and time in to document
-	# print chrcount legacy code
+	txt.insert(END, '\n' + str(msg) + str(chrcount))
+
+def char_count():
+	data = txt.get('1.0', END+'-1c')
+	chrcount = len(data) # get length of string 
+	return chrcount;
 	
 # create a menu
 def dummy():
