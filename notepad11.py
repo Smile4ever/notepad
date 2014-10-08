@@ -30,23 +30,24 @@
 #  
 #http://effbot.org/zone/vroom.htm  
 #http://knowpapa.com/text-editor/
+#printing to the printer
 #
 import Tkinter # note use of caps
 from Tkinter import *
 import tkFileDialog
+from tkFileDialog import askopenfilename
 import tkMessageBox
 import sys
 import time
+import os
         
 #window = Tkinter.Tk(className=" Just another Text Editor")
 
 #set up
 window = Tk()
-window.title('Notepad 9.0')
+window.title('Notepad 10.0b')
 window.geometry("800x400") #set window size  W x h
 window.resizable(0,0)
-   
-
 
 #define text entry box
 notetext = Text(window, height=750, width=580)  #set text box size
@@ -84,6 +85,7 @@ def open_command():
         if file != None:
             text = file.read()
             txt.insert(END, text)
+            print file
             file.close()	
 
 #def save_command(self):
@@ -93,8 +95,11 @@ def save_command():
     # slice off the last character from get, as an extra return is added
         data = txt.get('1.0', END+'-1c')
         file.write(data)
+        #filepath = tkFileDialog.asksaveasfilename()
+        #filepath = os.path.normpath(filepath)
+        print "this is the file name ",file
         file.close()
-
+		
 #legacy save file
 def savefile():
 	f = open("document.txt", "w")
@@ -112,31 +117,37 @@ def about_cmd():
     label = tkMessageBox.showinfo("About", "Notepad by Paul Sutton")		
 
 def exit_cmd():
-	if tkMessageBox.askokcancel("Quit", "Do you really want to quit?"):
+	if(char_count() == 0):
+		sys.exit()
+	elif tkMessageBox.askokcancel("Quit", "Do you really want to quit?"):
 		sys.exit()
 		
 		
 def insert_date_time():
 	dati = time.ctime() # set variable to grab the current date and time
-	txt.insert(END, dati) #insert date and time in to document
+	txt.insert(END, dati) #insert date and time into the document
 	print dati	# legacy test	
-	
-def char_count():
-	#print("test")
+
+def char_count_print():
 	msg = "Number of Characters : "
-	data = txt.get('1.0', END+'-1c')
-	#str(notetext)
-	chrcount = len(data) # get length of string 
+	chrcount = char_count()
+	
 	# insert a newline,  then insert the string to display the variable msg, convert the number of 
 	# characters to a string and then concatenate this to the previous inserts. 
-	#
-	txt.insert(END, '\n' + str(msg) + str(chrcount)) #insert date and time in to document
-	# print chrcount legacy code
+	txt.insert(END, '\n' + str(msg) + str(chrcount))
+
+def char_count():
+	data = txt.get('1.0', END+'-1c')
+	chrcount = len(data) # get length of string 
+	return chrcount;
 	
 # create a menu
 def dummy():
     print ("I am a Dummy Command, I will be removed in the next step")
     
+def send2printer():
+	#os.system("lpr -P printer_name file_name.txt")
+	print ("printer feature not enabled")     
     
 menu = Menu(window)
 window.config(menu=menu)
@@ -145,6 +156,7 @@ menu.add_cascade(label="File", menu=filemenu)
 filemenu.add_command(label="New", command=newfile)
 filemenu.add_command(label="Open...", command=open_command)
 filemenu.add_command(label="Save_As", command=save_command)
+filemenu.add_command(label="Print", command=send2printer)
 filemenu.add_separator()
 filemenu.add_command(label="Exit", command=exit_cmd)
 
